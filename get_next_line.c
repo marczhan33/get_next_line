@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 14:11:44 by mzhan             #+#    #+#             */
-/*   Updated: 2021/02/07 16:20:46 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/02/08 21:16:38 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,17 @@ while (buffer_struct.i != BUFFER_SIZE)
 			if (buffer_struct.buffer[buffer_struct.i] == '\n')
 			{
 				if (!(line = (char *)malloc(sizeof(char) * (buffer_struct.i] + 1))))
-					return (NULL);
+					return (-1);
 				ft_strlcpy(line, buffer_struct.buffer, buffer_struct.i + 1);
+				ft_strjoin (tmp, line);
 			buffer_struct.i++;
 			return (1);
+				/* il me faut pleins de statics strings, et utiliser la fonction calloc ? a moins que quand je retourne line je free apres*/
 			}
 		}
-
+if (!(tmp = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
+	return (-1);
+ft_strlcpy(tmp, buffer_struct.buffer, BUFFER_SIZE + 1);
 
 
 if bufferize is the size of the line, stoping after the \n, read fd into static char *buffer, go through this buffer, we see a \n so  then need to strdup de buffer into *line (line = strdup(buffer)); return (1)
@@ -92,6 +96,12 @@ CETTE CONDITION A FAIRE AU PROGRMME : if buffersize = 1; I need to read it until
 read the second time, the static buffer has the new character, /*then need to copy after the first character of static malloc line.*/ then need to malloc a second time of size 1, then once we have a \n, we strjoin everything 
 while (buffer_struct[buffer_struct.i] != '\n')
 {
+	else if (buffer_struct.i == BUFFER_SIZE)
+	{
+		if (!(tmp = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
+			return (-1);
+		ft_strlcpy(line, buffer_struct.buffer, BUFFER_SIZE + 1);
+		ft_
 
 
 
