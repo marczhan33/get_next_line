@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 14:11:44 by mzhan             #+#    #+#             */
-/*   Updated: 2021/02/13 17:27:54 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/02/14 12:28:12 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,38 +31,33 @@ int	get_next_line(int fd, char **line)
 	ret = read(fd, buffer, BUFFER_SIZE);
 	if (ret == -1)
 		return (-1);
-	while (ret != 0 || buffer_struct.str[buffer_struct.i] != '\n' || buffer_struct.i <= BUFFER_SIZE)
+	while (ret > 0 || buffer_struct.i <= BUFFER_SIZE)
 	{
 		if(!(buffer_struct.str = ft_strjoin(buffer_struct.str, buffer)))
 			return (-1);
-		while (buffer_struct.str[buffer_struct.i] != '\0')
-		{
-			if (buffer_struct.str[buffer_struct.i] == '\n')
-			{
-				if (!(*line = (char *)malloc(sizeof(char) * (buffer_struct.i + 1))))
-					return (-1);
-				ft_strlcpy(*line, buffer_struct.str, buffer_struct.i);
-				if (buffer_struct.str[buffer_struct.i + 1] != '\0')
-				{
-					reste = ft_strlen(&buffer_struct.str[buffer_struct.i]); 
-					if(!(tmp = (char *)malloc(sizeof(char) * reste)))
-							return (-1);
-					while (index < reste)
-					{
-						tmp[index] = buffer_struct.str[buffer_struct.i];
-						index ++;
-						buffer_struct.i++;
-					}
-				free(buffer_struct.str);
-				ft_strlcpy(buffer_struct.str, tmp, index);
-				}
-			return (1);
-			}
-		buffer_struct.i++;
-		}
+		if ((buffer_struct.i = ft_strchr(buffer_struct.str, '\n')))
+			break;
+		ret = read(fd, buffer, BUFFER_SIZE);
 	}
-	get_next_line(fd, line);
-	return (1);	
+	if (!(*line = ft_substr(buffer_struct.str, 0, buffer_struct.i)))
+		return (-1);
+	buffer_struct.i++;
+	if (buffer_struct.str[buffer_struct.i] != '\0')
+	{
+		reste = ft_strlen(&buffer_struct.str[buffer_struct.i]); 
+		if(!(tmp = (char *)malloc(sizeof(char) * reste + 1)))
+			return (-1);
+		while (index <= reste)
+		{
+			tmp[index] = buffer_struct.str[buffer_struct.i];
+			index ++;
+			buffer_struct.i++;
+		}
+		tmp[index] = '\0';
+		free(buffer_struct.str);
+		buffer_struct.str = tmp;
+	}
+	return (1);
 }
 
 #include <stdio.h>
