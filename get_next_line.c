@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 14:11:44 by mzhan             #+#    #+#             */
-/*   Updated: 2021/02/14 12:28:12 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/02/20 17:24:57 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,38 @@
 #include "get_next_line.h"
 #include <stdlib.h>
 
+static int	appendline(char *str, char **line)
+{
+	int len;
+	char *tmp;
+
+	len = 0;
+	while (str[len] != '\n' && str[len] != '\0')
+		len ++;
+	if (s[len] == '\n')
+	{
+		if (!(*line = ft_substr(str, 0, buffer_struct.i)))
+			return (-1);
+		tmp = ft_strdup(&str[len + 1];
+		free (str);
+		str = tmp;//https://github.com/520luigi/Get_Next_Line/blob/master/get_next_line.c
+
+
+
+
+static int	output(char *s, char **line, int ret)
+{
+	if (ret < 0)
+		return (-1);
+	else if (ret == 0 && buffer_struct.str == NULL)
+		return (0);
+	else
+		return (appendline(buffer_struct.str, line)
+}
+
 int	get_next_line(int fd, char **line)
 {
-	char buffer[BUFFER_SIZE];
+	char buffer[BUFFER_SIZE + 1];
 	static buffer_struct buffer_struct;
 	int ret;
 	char *tmp;
@@ -28,37 +57,20 @@ int	get_next_line(int fd, char **line)
 	buffer_struct.i = 0;
 	buffer_struct.str = NULL;
 	index = 0;
-	ret = read(fd, buffer, BUFFER_SIZE);
-	if (ret == -1)
+	
+	if ( fd < 0 || line == NULL)
 		return (-1);
-	while (ret > 0 || buffer_struct.i <= BUFFER_SIZE)
+	while ((ret = read(fd, buffer, BUFFER_SIZE)) > 0 || buffer_struct.i <= BUFFER_SIZE)
 	{
-		if(!(buffer_struct.str = ft_strjoin(buffer_struct.str, buffer)))
+		buffer[BUFFER_SIZE] = '\0';
+		if((!(tmp = ft_strjoin(buffer_struct.str, buffer))))
 			return (-1);
+		free (buffer_struct.str);	
+		buffer_struct.str = tmp;
 		if ((buffer_struct.i = ft_strchr(buffer_struct.str, '\n')))
 			break;
-		ret = read(fd, buffer, BUFFER_SIZE);
 	}
-	if (!(*line = ft_substr(buffer_struct.str, 0, buffer_struct.i)))
-		return (-1);
-	buffer_struct.i++;
-	if (buffer_struct.str[buffer_struct.i] != '\0')
-	{
-		reste = ft_strlen(&buffer_struct.str[buffer_struct.i]); 
-		if(!(tmp = (char *)malloc(sizeof(char) * reste + 1)))
-			return (-1);
-		while (index <= reste)
-		{
-			tmp[index] = buffer_struct.str[buffer_struct.i];
-			index ++;
-			buffer_struct.i++;
-		}
-		tmp[index] = '\0';
-		free(buffer_struct.str);
-		buffer_struct.str = tmp;
-	}
-	return (1);
-}
+	return (output(buffer_struct.str, line, ret));
 
 #include <stdio.h>
 #include <fcntl.h>

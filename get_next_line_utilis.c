@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 12:18:24 by mzhan             #+#    #+#             */
-/*   Updated: 2021/02/14 14:58:16 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/02/20 17:24:59 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,40 +17,33 @@ size_t ft_strlen(const char *s)
 {
 	size_t	i;
 
-	i = 0;
-	while (s[i])
+	i = 0; // s[i] == *(s + i)
+	while (s + i && s[i])
 		i++;
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, const char *buffer)
+char	*ft_strjoin(char *s1, char *buffer)
 {
-	size_t		lens1;
-	int		i;
-	int		j;
-	char	*str;
+	size_t		len;
+	int			i;
+	int			j;
+	char		*str;
 
-	if (s1)
-		lens1 = ft_strlen(s1);
-	else
-		lens1 = 0;
-	if (!(str = (char*)malloc((lens1 + ft_strlen(buffer) + 1) * sizeof(char))))
+	len = ft_strlen(s1) + ft_strlen(buffer);
+	if (!(str = (char*)malloc((len + 1) * sizeof(char))))
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (s1[i]) 
+	while (s1 + i && s1[i]) 
 	{
-		str[j++] = s1[i];
+		str[i] = s1[i];
 		i++;
 	}
 	i = 0;
 	while (buffer[i])
-	{
-		str[j++] = buffer[i];
-		i++;
-	}
-	str[j] = 0;
-	free (s1);
+		str[i++] = buffer[j++];
+	str[j] = '\0';
 	return (str);
 }
 
@@ -89,6 +82,6 @@ char	*ft_substr(char *s, int start, int len)
 		}
 		i++;
 	}
-	str[j] = 0;
+	str[j] = '\0';
 	return (str);
 }
