@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 14:11:44 by mzhan             #+#    #+#             */
-/*   Updated: 2021/02/20 17:24:57 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/02/21 17:19:26 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,25 @@ static int	appendline(char *str, char **line)
 	len = 0;
 	while (str[len] != '\n' && str[len] != '\0')
 		len ++;
-	if (s[len] == '\n')
+	if (str[len] == '\n')
 	{
-		if (!(*line = ft_substr(str, 0, buffer_struct.i)))
+		if (!(*line = ft_substr(str, 0, len)))
 			return (-1);
-		tmp = ft_strdup(&str[len + 1];
+		tmp = ft_strdup(&str[len + 1]);
 		free (str);
-		str = tmp;//https://github.com/520luigi/Get_Next_Line/blob/master/get_next_line.c
-
-
-
+		str = tmp;
+	}
+	return (1);
+}
 
 static int	output(char *s, char **line, int ret)
 {
 	if (ret < 0)
 		return (-1);
-	else if (ret == 0 && buffer_struct.str == NULL)
+	else if (ret == 0 && s  == NULL)
 		return (0);
 	else
-		return (appendline(buffer_struct.str, line)
+		return (appendline(s, line));
 }
 
 int	get_next_line(int fd, char **line)
@@ -52,7 +52,6 @@ int	get_next_line(int fd, char **line)
 	int ret;
 	char *tmp;
 	int index;
-	int reste;
 
 	buffer_struct.i = 0;
 	buffer_struct.str = NULL;
@@ -67,26 +66,26 @@ int	get_next_line(int fd, char **line)
 			return (-1);
 		free (buffer_struct.str);	
 		buffer_struct.str = tmp;
-		if ((buffer_struct.i = ft_strchr(buffer_struct.str, '\n')))
+		if ((buffer_struct.i = ft_strchr(buffer_struct.str, '\n') != -1))
 			break;
 	}
 	return (output(buffer_struct.str, line, ret));
-
+}
 #include <stdio.h>
 #include <fcntl.h>
 int main ()
 {
 	int fd;
-	char **line;
+	char *line;
 
 	line = NULL;
 	fd = open("src", O_RDWR);
-	while (get_next_line(fd, line) >= 0)
+	while (get_next_line(fd, &line) >= 0)
 	{
-		printf("%s\n", *line);
+		printf("%s\n", line);
 		free(line);
 	}
-	printf("%s\n", *line);
+	printf("%s\n", line);
 	free(line);
 	return (0);
 }

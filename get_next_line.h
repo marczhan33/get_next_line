@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 16:48:41 by mzhan             #+#    #+#             */
-/*   Updated: 2021/02/20 13:46:12 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/02/21 17:19:22 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GET_NEXT_LINE_H
@@ -25,5 +25,7 @@ char				*ft_strjoin(char *s1, char *s2);
 
 char				*ft_substr(char *s, int start, size_t len);
 int					ft_strchr(char *s, int c);
+char				*ft_strdup(const char *s);
+int 				get_next_line(int fd, char **line);
 
 #endif
