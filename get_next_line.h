@@ -6,13 +6,12 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 16:48:41 by mzhan             #+#    #+#             */
-/*   Updated: 2021/02/21 17:19:22 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/03/02 12:01:14 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFFER_SIZE 4
 typedef struct		buffer_struct
 {
 	char *str;

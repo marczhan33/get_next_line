@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 14:11:44 by mzhan             #+#    #+#             */
-/*   Updated: 2021/02/21 17:19:26 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/03/02 14:09:45 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,16 @@ int	get_next_line(int fd, char **line)
 	buffer_struct.str = NULL;
 	index = 0;
 	
-	if ( fd < 0 || line == NULL)
+	if (fd < 0 || line == NULL || BUFFER_SIZE < 1)
 		return (-1);
-	while ((ret = read(fd, buffer, BUFFER_SIZE)) > 0 || buffer_struct.i <= BUFFER_SIZE)
+	while ((ret = read(fd, buffer, BUFFER_SIZE)) > 0)
 	{
 		buffer[BUFFER_SIZE] = '\0';
-		if((!(tmp = ft_strjoin(buffer_struct.str, buffer))))
+		if((!(buffer_struct.str = ft_strjoin(buffer_struct.str, buffer))))
 			return (-1);
 		free (buffer_struct.str);	
-		buffer_struct.str = tmp;
+		//buffer_struct.str = tmp;
+		buffer_struct.str = ft_strdup(tmp);
 		if ((buffer_struct.i = ft_strchr(buffer_struct.str, '\n') != -1))
 			break;
 	}
@@ -73,19 +74,26 @@ int	get_next_line(int fd, char **line)
 }
 #include <stdio.h>
 #include <fcntl.h>
-int main ()
+int main (int ac, char *av[])
 {
 	int fd;
 	char *line;
+	char	*file;
 
 	line = NULL;
+	if (ac != 2)
+	{
+		printf("ERROR - no file or too many arguments\n");
+		return (-1);
+	}
+	file = av[1];
 	fd = open("src", O_RDWR);
-	while (get_next_line(fd, &line) >= 0)
+	while (get_next_line(fd, &line) > 0)
 	{
 		printf("%s\n", line);
 		free(line);
 	}
 	printf("%s\n", line);
-	free(line);
+//	free(line);
 	return (0);
 }
