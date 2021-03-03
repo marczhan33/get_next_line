@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 12:18:24 by mzhan             #+#    #+#             */
-/*   Updated: 2021/02/21 17:19:24 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/03/03 12:23:47 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ char	*ft_strjoin(char *s1, char *buffer)
 		str[i] = s1[i];
 		i++;
 	}
+	j = i;
 	i = 0;
 	while (buffer[i])
-		str[i++] = buffer[j++];
+		str[j++] = buffer[i++];
 	str[j] = '\0';
+	free (s1);
 	return (str);
 }
 

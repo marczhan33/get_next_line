@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 14:11:44 by mzhan             #+#    #+#             */
-/*   Updated: 2021/03/02 14:09:45 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/03/03 13:19:08 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,31 @@
 #include "get_next_line.h"
 #include <stdlib.h>
 
-static int	appendline(char *str, char **line)
+static int	appendline(buffer_struct buffer_struct, char **line)
 {
-	int len;
 	char *tmp;
 
-	len = 0;
-	while (str[len] != '\n' && str[len] != '\0')
-		len ++;
-	if (str[len] == '\n')
-	{
-		if (!(*line = ft_substr(str, 0, len)))
+	//while (str[len] != '\n' && str[len] != '\0')
+	//	len ++;
+	/*if (str[len] == '\n')
+	{*/
+		if (!(*line = ft_substr(str, 0, buffer_struct.i)))
 			return (-1);
-		tmp = ft_strdup(&str[len + 1]);
+		tmp = ft_strdup(&str[buffer_struct.i + 1]);
 		free (str);
 		str = tmp;
 	}
 	return (1);
 }
 
-static int	output(char *s, char **line, int ret)
+static int	output(buffer_struct buffer_struct, char **line, int ret)
 {
 	if (ret < 0)
 		return (-1);
-	else if (ret == 0 && s  == NULL)
+	else if (ret == 0 && s == NULL)
 		return (0);
 	else
-		return (appendline(s, line));
+		return (appendline(buffer_struct, line));
 }
 
 int	get_next_line(int fd, char **line)
@@ -50,12 +48,9 @@ int	get_next_line(int fd, char **line)
 	char buffer[BUFFER_SIZE + 1];
 	static buffer_struct buffer_struct;
 	int ret;
-	char *tmp;
-	int index;
 
 	buffer_struct.i = 0;
 	buffer_struct.str = NULL;
-	index = 0;
 	
 	if (fd < 0 || line == NULL || BUFFER_SIZE < 1)
 		return (-1);
@@ -64,13 +59,13 @@ int	get_next_line(int fd, char **line)
 		buffer[BUFFER_SIZE] = '\0';
 		if((!(buffer_struct.str = ft_strjoin(buffer_struct.str, buffer))))
 			return (-1);
-		free (buffer_struct.str);	
-		//buffer_struct.str = tmp;
-		buffer_struct.str = ft_strdup(tmp);
-		if ((buffer_struct.i = ft_strchr(buffer_struct.str, '\n') != -1))
+		if (ft_strchr(buffer_struct.str, '\n') != -1)
+		{
+			buffer_struct.i = ft_strchr(buffer_struct.str, '\n');
 			break;
+		}
 	}
-	return (output(buffer_struct.str, line, ret));
+	return (output(buffer_struct buffer_struct, line, ret));
 }
 #include <stdio.h>
 #include <fcntl.h>
@@ -94,6 +89,6 @@ int main (int ac, char *av[])
 		free(line);
 	}
 	printf("%s\n", line);
-//	free(line);
+	free(line);
 	return (0);
 }
