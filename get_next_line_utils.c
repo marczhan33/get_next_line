@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utilis.c                             :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/13 12:18:24 by mzhan             #+#    #+#             */
-/*   Updated: 2021/03/03 15:47:24 by mzhan            ###   ########.fr       */
+/*   Created: 2021/03/04 10:18:18 by mzhan             #+#    #+#             */
+/*   Updated: 2021/03/04 11:50:03 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int		ft_strchr(char *s, int c)
 	tmp_c = (char)c;
 	tmp_s = (char *)s;
 	i = 0;
-	while (tmp_s[i] != '\0' && tmp_s[i] != tmp_c)
+	while (s + i  && tmp_s[i] != '\0' && tmp_s[i] != tmp_c)
 		i++;
-	if (tmp_s[i] == tmp_c)
+	if (s + i && tmp_s[i] == tmp_c)
 		return (i);
 	return (-1);
 }
