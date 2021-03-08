@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 10:18:18 by mzhan             #+#    #+#             */
-/*   Updated: 2021/03/04 11:50:03 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/03/08 14:53:38 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	*ft_strjoin(char *s1, char *buffer)
 	return (str);
 }
 
+
 int		ft_strchr(char *s, int c)
 {
 	char	tmp_c;
@@ -58,11 +59,13 @@ int		ft_strchr(char *s, int c)
 	tmp_c = (char)c;
 	tmp_s = (char *)s;
 	i = 0;
-	while (s + i  && tmp_s[i] != '\0' && tmp_s[i] != tmp_c)
+	while (s + i  && tmp_s[i] != '\0')
+	{
+		if (s + i && tmp_s[i] == tmp_c)
+			return (i);
 		i++;
-	if (s + i && tmp_s[i] == tmp_c)
-		return (i);
-	return (-1);
+	}
+	return (i);
 }
 
 char	*ft_substr(char *s, int start, int len)
