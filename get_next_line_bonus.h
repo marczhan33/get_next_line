@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/06 16:48:41 by mzhan             #+#    #+#             */
-/*   Updated: 2021/03/10 14:12:11 by mzhan            ###   ########.fr       */
+/*   Created: 2021/03/10 14:42:07 by mzhan             #+#    #+#             */
+/*   Updated: 2021/03/10 14:43:22 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
 #include <stdlib.h>
-
-typedef struct		buffer_struct
-{
-	char *str;
-	int i;
-}					buffer_struct;
 
 size_t				ft_strlen(const char *s);
 
