@@ -6,17 +6,18 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 10:18:18 by mzhan             #+#    #+#             */
-/*   Updated: 2021/03/10 12:20:20 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/03/11 13:44:33 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 
-size_t ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
-	i = 0; // s[i] == *(s + i)
+	i = 0;
 	while (s + i && s[i])
 		i++;
 	return (i);
@@ -34,7 +35,7 @@ char	*ft_strjoin(char *s1, char *buffer)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (s1 + i && s1[i]) 
+	while (s1 + i && s1[i])
 	{
 		str[i] = s1[i];
 		i++;
@@ -44,12 +45,11 @@ char	*ft_strjoin(char *s1, char *buffer)
 	while (buffer[i])
 		str[j++] = buffer[i++];
 	str[j] = '\0';
-	free (s1);
+	free(s1);
 	return (str);
 }
 
-
-int		ft_strchr(char *s, int c)
+int	ft_strchr(char *s, int c)
 {
 	char	tmp_c;
 	char	*tmp_s;
@@ -90,10 +90,10 @@ char	*ft_substr(char *s, int start, int len)
 	return (str);
 }
 
-char			*ft_strdup(const char *s)
+char	*ft_strdup(const char *s)
 {
-	char *str;
-	int 	i;
+	char	*str;
+	int	i;
 
 	i = 0;
 	if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1))))
@@ -103,7 +103,7 @@ char			*ft_strdup(const char *s)
 		str[i] = '\0';
 		return (str);
 	}
-	while (s[i]  != '\0')
+	while (s[i] != '\0')
 	{
 		str[i] = s[i];
 		i++;

@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 14:11:44 by mzhan             #+#    #+#             */
-/*   Updated: 2021/03/10 15:10:56 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/03/11 14:59:55 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,19 @@ static int	appendline(buffer_struct *buffer_struct, char **line)
 		return (0);
 	}
 	buffer_struct->i = ft_strchr(buffer_struct->str, '\n');
-	if (!(*line = ft_substr(buffer_struct->str, 0, buffer_struct->i)))
-		return (-1);
-	if ( buffer_struct->str[buffer_struct->i] != '\0')
+	if (buffer_struct->str[buffer_struct->i] == '\n')
 	{
+		if (!(*line = ft_substr(buffer_struct->str, 0, buffer_struct->i)))
+			return (-1);
 		tmp = ft_strdup(&buffer_struct->str[buffer_struct->i + 1]);
 		free (buffer_struct->str);
 		buffer_struct->str = tmp;
 		return (1);
+	}
+	else 
+	{
+		*line = ft_strdup(buffer_struct->str);
+		free (buffer_struct->str);
 	}
 	return (0);
 }
@@ -91,7 +96,7 @@ int	get_next_line(int fd, char **line)
 	return (appendline(&buffer_struct, line));
 }
 
-/*
+
 #include <stdio.h>
 #include <fcntl.h>
 int main (int argc, char **argv)
@@ -113,4 +118,4 @@ int main (int argc, char **argv)
 //	free(line);
 //	system("leaks a.out");
 	return (0);
-}*/
+}
