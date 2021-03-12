@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 14:41:23 by mzhan             #+#    #+#             */
-/*   Updated: 2021/03/12 12:27:40 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/03/12 14:33:55 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void		*ft_memset(void *s, int c, size_t n)
 	return (s);
 }
 
-static int	appendline(t_structi *mystruct, char **line, int fd)
+static int	appendline(t_struct *mystruct, char **line, int fd)
 {
 	char *tmp;
 
