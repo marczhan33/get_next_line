@@ -6,7 +6,7 @@
 /*   By: mzhan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 14:11:44 by mzhan             #+#    #+#             */
-/*   Updated: 2021/03/11 14:59:55 by mzhan            ###   ########.fr       */
+/*   Updated: 2021/03/12 12:30:54 by mzhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "get_next_line.h"
 #include <stdlib.h>
 
-int ft_nl(char *s, char c)
+int			ft_nl(char *s, char c)
 {
 	int i;
 
@@ -29,8 +29,8 @@ int ft_nl(char *s, char c)
 	}
 	return (0);
 }
-	
-void	*ft_memset(void *s, int c, size_t n)
+
+void		*ft_memset(void *s, int c, size_t n)
 {
 	size_t i;
 
@@ -43,79 +43,55 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (s);
 }
 
-static int	appendline(buffer_struct *buffer_struct, char **line)
+static	int	appendline(t_struct *mystruct, char **line)
 {
 	char *tmp;
 
-	if (buffer_struct->str == NULL)
+	if (mystruct->str == NULL)
 	{
-		if(!(*line = malloc(sizeof(char) * 1)))
+		if (!(*line = malloc(sizeof(char) * 1)))
 			return (-1);
 		*line[0] = '\0';
 		return (0);
 	}
-	buffer_struct->i = ft_strchr(buffer_struct->str, '\n');
-	if (buffer_struct->str[buffer_struct->i] == '\n')
+	mystruct->i = ft_strchr(mystruct->str, '\n');
+	if (mystruct->str[mystruct->i] == '\n')
 	{
-		if (!(*line = ft_substr(buffer_struct->str, 0, buffer_struct->i)))
+		if (!(*line = ft_substr(mystruct->str, 0, mystruct->i)))
 			return (-1);
-		tmp = ft_strdup(&buffer_struct->str[buffer_struct->i + 1]);
-		free (buffer_struct->str);
-		buffer_struct->str = tmp;
+		tmp = ft_strdup(&mystruct->str[mystruct->i + 1]);
+		free(mystruct->str);
+		mystruct->str = tmp;
 		return (1);
 	}
-	else 
+	else
 	{
-		*line = ft_strdup(buffer_struct->str);
-		free (buffer_struct->str);
+		*line = ft_strdup(mystruct->str);
+		free(mystruct->str);
 	}
 	return (0);
 }
 
-int	get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
-	char buffer[BUFFER_SIZE + 1];
-	static buffer_struct buffer_struct;
-	int ret;
-	
+	char			buffer[BUFFER_SIZE + 1];
+	static t_struct mystruct;
+	int				ret;
+
 	ret = 0	;
 	if (fd < 0 || line == NULL || BUFFER_SIZE < 1)
 		return (-1);
-	while (!ft_nl(buffer_struct.str, '\n'))
+	while (!ft_nl(mystruct.str, '\n'))
 	{
 		ft_memset(buffer, 0, BUFFER_SIZE + 1);
 		ret = read(fd, buffer, BUFFER_SIZE);
 		if (ret == 0)
-			break;
-		if (ret == -1) 
+			break ;
+		if (ret == -1)
 			return (-1);
 		buffer[BUFFER_SIZE] = '\0';
-		if((!(buffer_struct.str = ft_strjoin(buffer_struct.str, buffer))))
+		if ((!(mystruct.str = ft_strjoin(mystruct.str, buffer))))
 			return (-1);
 	}
-	return (appendline(&buffer_struct, line));
-}
-
-
-#include <stdio.h>
-#include <fcntl.h>
-int main (int argc, char **argv)
-{
-	int fd;
-	int	gnl;
-	char *line;
-
-	line = NULL;
-	fd = open(argv[1], O_RDWR);
-	gnl = 1;
-	while (gnl == 1)
-	{
-		gnl = get_next_line(fd, &line);
-		printf("%d %s\n", gnl, line);
-		free(line);
-	}
-//	printf("%s\n", line);
-//	free(line);
-//	system("leaks a.out");
-	return (0);
+	return (appendline(&mystruct, line));
 }
